@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, defaultTheme } from "@adobe/react-spectrum";
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.jsx";
 import "./styles/global.css";
@@ -8,7 +9,9 @@ import "./styles/global.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider theme={defaultTheme}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
