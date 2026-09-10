@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.44.0",
+    "@tailwindcss/vite": "^4.3.3",
     "firebase": "^12.2.1",
     "idb": "^8.0.3",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.18.3",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.2",
