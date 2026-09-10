@@ -4,9 +4,9 @@ const Login=()=>{
 
     return(
         <>
-        
+          <div> hello world</div>
         </>
     )
 }
 
-export const Login 
+export default Login 
