@@ -143,13 +143,14 @@ function Models({ user, authService }) {
 			</nav>
 
 			<div className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
-				<header className="max-w-3xl">
+				<header className="dashboard-hero max-w-4xl">
 					<p className="eyebrow">Model discovery</p>
-					<h1 className="mt-4 text-4xl font-semibold tracking-[-0.06em] sm:text-6xl">Find the right model for your use case.</h1>
+					<h1 className="mt-4 text-4xl font-semibold tracking-[-0.06em] sm:text-6xl">Find the right model for the work ahead.</h1>
 					<p className="mt-5 max-w-2xl text-base leading-7 text-slate-500">Search, compare and filter available models based on architecture, family, pipeline and file configuration.</p>
+					<div className="mt-8 flex flex-wrap gap-2 text-xs font-semibold text-slate-500"><span className="metric-chip">Live catalog</span><span className="metric-chip">Local-first cache</span><span className="metric-chip">Technical metadata</span></div>
 				</header>
 
-				<section className="mt-10 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_18px_50px_rgba(30,55,90,0.06)] sm:p-7">
+				<section className="search-panel mt-10 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_18px_50px_rgba(30,55,90,0.06)] sm:p-7">
 					<SearchBar
 						nameQuery={searchInput.name}
 						familyQuery={searchInput.family}

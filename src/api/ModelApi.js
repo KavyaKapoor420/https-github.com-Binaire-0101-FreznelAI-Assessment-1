@@ -1,6 +1,7 @@
 import Model from "../components/Models/Model.js";
+import localModelData from "./model-api.json";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://binaire.app/hf-models-api.json";
+const API_URL = import.meta.env.VITE_API_URL || "/src/api/model-api.json";
 
 function getModelRecords(payload) {
 	if (Array.isArray(payload)) {
@@ -21,6 +22,11 @@ export class ModelAPI {
 	}
 
 	fetchModels() {
+		if (this.url === "/src/api/model-api.json" || this.url === "local") {
+			return Promise.resolve(localModelData)
+				.then((payload) => this.normalizeModels(payload));
+		}
+
 		return fetch(this.url, {
 			headers: {
 				Accept: "application/json",
@@ -38,15 +44,7 @@ export class ModelAPI {
 
 				return response.json();
 			})
-			.then((payload) => {
-				const records = getModelRecords(payload);
-
-				if (!records) {
-					throw new Error("Model service returned an invalid data structure");
-				}
-
-				return records.map((record) => new Model(record));
-			})
+			.then((payload) => this.normalizeModels(payload))
 			.catch((error) => {
 				const message = error instanceof TypeError
 					? "The model service could not be reached"
@@ -54,6 +52,16 @@ export class ModelAPI {
 
 				throw new Error(message || "Unable to load models");
 			});
+	}
+
+	normalizeModels(payload) {
+		const records = getModelRecords(payload);
+
+		if (!records) {
+			throw new Error("Model service returned an invalid data structure");
+		}
+
+		return records.map((record) => new Model(record));
 	}
 }
 

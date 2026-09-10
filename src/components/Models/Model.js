@@ -20,23 +20,28 @@ export class Model {
 		const config = data.config || {};
 		const cardData = data.cardData || data.card_data || {};
 		const tags = Array.isArray(data.tags) ? data.tags : [];
+		const hfTags = data.hf_tags || data.hfTags || {};
+		const architectures = firstValue(data.architecture_category, data.architecture, data.architectures, hfTags.architecture);
 
 		this.id = asText(firstValue(data.id, data.modelId, data.model_id, data.name));
-		this.name = asText(firstValue(data.name, data.model_name, data.modelId, data.id)) || "Unnamed model";
+		this.name = asText(firstValue(data.display_name, data.name, data.model_name, data.modelId, data.id)) || "Unnamed model";
+		this.searchName = [this.name, data.id, data.huggingface_repo, data.model_name].filter(Boolean).join(" ");
 		this.family = asText(
 			firstValue(data.family, data.model_family, data.modelFamily, data.organization, tags[0])
 		) || "Unknown family";
+		this.useCase = asText(firstValue(data.use_case, data.useCase, data.task)) || "General purpose";
+		this.repoUrl = asText(firstValue(data.repo_url, data.repoUrl, data.url));
 		this.pipelineTag = asText(
-			firstValue(data.pipeline_tag, data.pipelineTag, data.pipeline, data.task, tags.find((tag) => tag.includes("-")))
+			firstValue(data.pipeline_tag, data.pipelineTag, data.pipeline, data.task, hfTags.pipeline_tag, data.use_case, tags.find((tag) => tag.includes("-")))
 		) || "Unknown pipeline";
-		this.architecture = asText(
-			firstValue(data.architecture, data.architectures, config.architectures, data.architecture_tag)
-		) || "Unknown architecture";
+		this.architecture = asText(firstValue(architectures, config.architectures, data.architecture_tag)) || "Unknown architecture";
 		this.weightTag = asText(
-			firstValue(data.weight_tag, data.weightTag, data.weight, data.library_name, data.dtype)
+			firstValue(data.weight_format, data.weight_tag, data.weightTag, data.weight, data.library_name, data.dtype)
 		) || "Not specified";
+		this.safetensorLabel = asText(firstValue(data.safetensor_file_count, data.safetensorCount, data.safetensors, data.safetensor_count, data.safetensors_count, data.safetensorsFiles)) || "TBD";
 		this.safetensorCount = asNumber(
 			firstValue(
+				data.safetensor_file_count,
 				data.safetensorCount,
 				data.safetensors,
 				data.safetensor_count,
@@ -56,7 +61,7 @@ export class Model {
 	}
 
 	matchesName(query) {
-		return this.name.toLowerCase().includes(String(query || "").trim().toLowerCase());
+		return this.searchName.toLowerCase().includes(String(query || "").trim().toLowerCase());
 	}
 
 	matchesFamily(query) {
@@ -68,9 +73,12 @@ export class Model {
 			id: this.id,
 			name: this.name,
 			family: this.family,
+			useCase: this.useCase,
+			repoUrl: this.repoUrl,
 			pipelineTag: this.pipelineTag,
 			architecture: this.architecture,
 			weightTag: this.weightTag,
+			safetensorLabel: this.safetensorLabel,
 			safetensorCount: this.safetensorCount,
 			downloads: this.downloads,
 			likes: this.likes,

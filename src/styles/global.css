@@ -41,6 +41,37 @@ input {
 	text-transform: uppercase;
 }
 
+.dashboard-hero {
+	position: relative;
+}
+
+.dashboard-hero::after {
+	position: absolute;
+	right: 0;
+	top: 1rem;
+	width: 6rem;
+	height: 6rem;
+	border: 1px solid #dbeafe;
+	border-radius: 1.5rem;
+	content: "";
+	transform: rotate(12deg);
+	opacity: 0.7;
+}
+
+.metric-chip {
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid #e2e8f0;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.8);
+	padding: 0.45rem 0.7rem;
+}
+
+.search-panel {
+	position: relative;
+	box-shadow: 0 20px 55px rgba(37, 99, 235, 0.07);
+}
+
 .status-pill {
 	display: inline-flex;
 	align-items: center;
@@ -204,6 +235,20 @@ input {
 	color: #334155;
 	font-size: 0.85rem;
 	font-weight: 700;
+}
+
+.repo-link {
+	display: inline-flex;
+	margin-top: 1rem;
+	border-top: 1px solid #f1f5f9;
+	padding-top: 0.85rem;
+	color: #2563eb;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.repo-link:hover {
+	color: #1d4ed8;
 }
 
 .model-skeleton {
